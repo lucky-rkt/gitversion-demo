@@ -1,0 +1,51 @@
+next-version: 3.0.0
+
+commit-message-incrementing: Enabled
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
+
+update-build-number: true
+semantic-version-format: Strict
+
+branches:
+  master:
+    regex: ^master$|^main$
+    label: ''
+    increment: Patch
+    is-source-branch-for: ['develop']
+    prevent-increment:
+      of-merged-branch: false
+    track-merge-target: false
+    track-merge-message: true
+    tracks-release-branches: false
+    is-release-branch: true
+    is-main-branch: true
+  develop:
+    regex: ^develop$
+    mode: ContinuousDelivery
+    label: beta
+    increment: Inherit
+    source-branches: ['master']
+    is-source-branch-for: ['feature']
+    prevent-increment:
+      of-merged-branch: false
+    track-merge-target: true
+    track-merge-message: true
+    tracks-release-branches: true
+    is-release-branch: false
+    is-main-branch: false
+  feature:
+    regex: ^features?[\/-](?<BranchName>.+)
+    mode: ContinuousDelivery
+    label: '{BranchName}'
+    increment: Inherit
+    source-branches: ['develop']
+    prevent-increment:
+      of-merged-branch: true
+    track-merge-target: false
+    track-merge-message: true
+    tracks-release-branches: false
+    is-release-branch: false
+    is-main-branch: false
